@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="kotak">
+        <h2>Form Pendaftaran Relawan Karhutla</h2>
+            <label>Nama Lengkap:</label><br>
+            <input type="text" name="nama" required><br><br>
+           
+            <label>Email:</label><br>
+            <input type="email" name="email" required><br><br>
+
+            <label> Nomor Telepon:</label><br>
+            <input type="tel" name="nomor_telepon" required><br><br>
+
+            <label> Tanggal Lahir:</label><br>
+            <input type="date" name="tanggal_lahir" required><br><br>
+
+            <label> Jenis Kelamin:</label><br>
+            <input type="radio" name="jenis_kelamin" value="Laki-laki" required> Laki-laki
+            <input type="radio" name="jenis_kelamin" value="Perempuan" required> Perempuan<br><br>
+
+            <label> Wilayah Pilihan:</label><br>
+            <select name="pilihan" required>
+                <option value="Kalimantan Barat">Kalimantan Barat</option>
+                <option value="Kalimantan Timur">Kalimantan Timur</option>
+                <option value="Kalimantan Tengah">Kalimantan Tengah</option>
+            </select>
+            <br><br>
+
+            <label>Role: </label><br>
+            <select name="role" required>
+                <option value="Pemadam Api">Pemadam Api</option>
+                <option value="Pengelola Logistik Relawan">Pengelola Logistik Relawan</option>
+                <option value="Tenaga Medis">Tenaga Medis</option>
+            </select>
+            <br><br>
+
+            <button type="submit">Daftar Sekarang</button>
+    </div>

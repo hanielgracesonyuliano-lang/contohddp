@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamba Allah - Ruang Pertemanan Hangat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcf8f5; /* Warm Cream Soft Background */
+            color: #4a4e69;
+        }
+        .pastel-card {
+            background: #ffffff;
+            border: 1px solid #f4e8e1;
+            box-shadow: 0 4px 20px rgba(232, 213, 203, 0.25);
+        }
+        .btn-pastel-pink {
+            background-color: #ffb5a7;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+        .btn-pastel-pink:hover {
+            background-color: #fcd5ce;
+            color: #6b705c;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-[#f4e8e1] px-4 py-3">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-full bg-[#ffb5a7] flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                    <i class="fa-solid fa-cloud-moon"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-[#6b705c] tracking-wide">Hamba Allah</h1>
+                    <p class="text-xs text-[#a3b18a]">Ruang silaturahmi & pertemanan damai</p>
+                </div>
+            </div>
+            <!-- Nav Tabs -->
+            <nav class="flex space-x-1 sm:space-x-2">
+                <button onclick="switchTab('feed')" id="tab-feed" class="px-2.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-[#ffb5a7] text-white shadow-sm">
+                    <i class="fa-solid fa-house mr-1"></i> Beranda
+                </button>
+                <button onclick="switchTab('explore')" id="tab-explore" class="px-2.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-[#6b705c] hover:bg-[#f8edeb]">
+                    <i class="fa-solid fa-compass mr-1"></i> Jelajahi
+                </button>
+                <button onclick="switchTab('chat')" id="tab-chat" class="px-2.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-[#6b705c] hover:bg-[#f8edeb]">
+                    <i class="fa-solid fa-comments mr-1"></i> Pesan
+                </button>
+                <button onclick="switchTab('profile')" id="tab-profile" class="px-2.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-[#6b705c] hover:bg-[#f8edeb]">
+                    <i class="fa-solid fa-user mr-1"></i> Profil
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-2xl w-full mx-auto px-4 py-6 space-y-6">
+
+        <!-- TAB 1: BERANDA / FEED -->
+        <section id="section-feed" class="space-y-6">
+            <div class="pastel-card rounded-2xl p-4 sm:p-5">
+                <div class="flex items-start space-x-3">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#ffb5a7]">
+                    <div class="flex-1">
+                        <textarea id="post-content" rows="3" placeholder="Bagaimana aktivitasmu hari ini, Haniel? Ceritakan atau sampaikan kebaikan..." class="w-full p-3 rounded-xl bg-[#fcf8f5] border border-[#f4e8e1] focus:outline-none focus:ring-2 focus:ring-[#ffb5a7] text-sm resize-none"></textarea>
+                        
+                        <!-- Image Preview Container -->
+                        <div id="image-preview-container" class="hidden relative mt-2 mb-3">
+                            <img id="image-preview" src="" alt="Preview" class="max-h-48 rounded-xl object-cover w-full">
+                            <button onclick="removeImage()" class="absolute top-2 right-2 bg-black/50 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs hover:bg-black/70">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2 border-t border-[#f4e8e1]/60">
+                            <label class="cursor-pointer flex items-center space-x-2 text-sm text-[#8d6b63] hover:text-[#ffb5a7] transition">
+                                <i class="fa-regular fa-image text-lg"></i>
+                                <span class="font-medium text-xs sm:text-sm">Unggah Foto</span>
+                                <input type="file" id="post-image-input" accept="image/*" class="hidden" onchange="previewFile()">
+                            </label>
+                            <button onclick="createNewPost()" class="btn-pastel-pink px-5 py-2 rounded-xl text-sm font-bold shadow-sm">
+                                Bagikan <i class="fa-solid fa-paper-plane ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feed List Container -->
+            <div id="feed-container" class="space-y-4"></div>
+        </section>
+
+        <!-- TAB 2: JELAJAHI / TEMAN -->
+        <section id="section-explore" class="hidden space-y-4">
+            <div class="pastel-card rounded-2xl p-4 sm:p-5">
+                <h2 class="font-bold text-lg text-[#6b705c] mb-1">Temukan Saudara & Teman Baru</h2>
+                <p class="text-xs text-[#8d6b63] mb-4">Saling terhubung dalam kebaikan dan obrolan positif.</p>
+                
+                <div class="space-y-3" id="explore-users-container"></div>
+            </div>
+        </section>
+
+        <!-- TAB 3: PESAN / CHAT INTERAKTIF -->
+        <section id="section-chat" class="hidden space-y-4">
+            <div class="pastel-card rounded-2xl p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-3 gap-4 h-[550px]">
+                <!-- Daftar Kontak Chat -->
+                <div class="border-r border-[#f4e8e1] pr-2 overflow-y-auto space-y-2">
+                    <h3 class="font-bold text-sm text-[#6b705c] mb-2 px-1">Pesan Teman</h3>
+                    <div id="chat-contact-list" class="space-y-1"></div>
+                </div>
+
+                <!-- Ruang Obrolan -->
+                <div class="sm:col-span-2 flex flex-col h-full bg-[#fcf8f5] rounded-xl border border-[#f4e8e1] p-3">
+                    <div id="active-chat-header" class="pb-3 border-b border-[#f4e8e1] flex items-center space-x-3">
+                        <img id="active-chat-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" class="w-10 h-10 rounded-full object-cover border border-[#ffb5a7]">
+                        <div>
+                            <h4 id="active-chat-name" class="font-bold text-sm text-[#4a4e69]">Pilih Teman</h4>
+                            <p class="text-xs text-green-500 font-medium">Online</p>
+                        </div>
+                    </div>
+
+                    <!-- Kotak Pesan Masuk -->
+                    <div id="chat-messages" class="flex-1 overflow-y-auto py-3 space-y-3 px-2">
+                        <div class="text-center text-xs text-[#8d6b63] py-20">Pilih salah satu teman di sebelah kiri untuk mulai mengobrol 🌸</div>
+                    </div>
+
+                    <!-- Input Kirim Pesan -->
+                    <div class="pt-2 border-t border-[#f4e8e1] flex items-center space-x-2">
+                        <input type="text" id="chat-input" onkeypress="handleChatKey(event)" placeholder="Ketik pesan hangat..." class="flex-1 bg-white border border-[#f4e8e1] px-3 py-2 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#ffb5a7]">
+                        <button onclick="sendChatMessage()" class="bg-[#ffb5a7] text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#fcd5ce] transition">
+                            Kirim
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PROFIL SAYA -->
+        <section id="section-profile" class="hidden space-y-4">
+            <div class="pastel-card rounded-2xl p-6 text-center space-y-4">
+                <div class="relative inline-block">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-[#ffb5a7] shadow-md">
+                    <span class="absolute bottom-0 right-1 bg-green-400 w-5 h-5 rounded-full border-2 border-white"></span>
+                </div>
+                <div>
+                    <h2 class="font-bold text-xl text-[#4a4e69]">Haniel</h2>
+                    <p class="text-xs text-[#8d6b63]">Salatiga, Jawa Tengah • Bergabung Sejak 2026</p>
+                </div>
+                <p class="text-sm bg-[#f8edeb] text-[#8d6b63] py-2 px-4 rounded-xl inline-block font-medium">
+                    "Berlomba-lomba dalam kebaikan setiap hari ✨"
+                </p>
+                <div class="grid grid-cols-3 gap-2 pt-2 border-t border-[#f4e8e1]">
+                    <div class="p-2 rounded-xl bg-[#fcf8f5]">
+                        <span id="stat-posts" class="block font-bold text-lg text-[#6b705c]">0</span>
+                        <span class="text-xs text-[#8d6b63]">Postingan</span>
+                    </div>
+                    <div class="p-2 rounded-xl bg-[#fcf8f5]">
+                        <span class="block font-bold text-lg text-[#6b705c]">7</span>
+                        <span class="text-xs text-[#8d6b63]">Teman</span>
+                    </div>
+                    <div class="p-2 rounded-xl bg-[#fcf8f5]">
+                        <span class="block font-bold text-lg text-[#6b705c]">18</span>
+                        <span class="text-xs text-[#8d6b63]">Aktivitas</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-[#a3b18a]">
+        <p>© 2026 Hamba Allah App. Dibuat dengan penuh ketulusan & kasih sayang warna pastel 🌸</p>
+    </footer>
+
+    <!-- Javascript -->
+    <script>
+        // Tab switching logic
+        function switchTab(tabName) {
+            ['feed', 'explore', 'chat', 'profile'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "px-2.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-[#6b705c] hover:bg-[#f8edeb]";
+            });
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).className = "px-2.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-[#ffb5a7] text-white shadow-sm";
+            
+            if(tabName === 'chat') {
+                renderChatContacts();
+            }
+        }
+
+        let uploadedImageBase64 = null;
+
+        function previewFile() {
+            const preview = document.getElementById('image-preview');
+            const container = document.getElementById('image-preview-container');
+            const file = document.getElementById('post-image-input').files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    uploadedImageBase64 = reader.result;
+                    preview.src = uploadedImageBase64;
+                    container.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            uploadedImageBase64 = null;
+            document.getElementById('post-image-input').value = "";
+            document.getElementById('image-preview-container').classList.add('hidden');
+        }
+
+        // Friends list data
+        const friendsList = [
+            { name: "Vika", bio: "Suka membaca buku & menulis cerita", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" },
+            { name: "Bide", bio: "Pecinta kopi dan diskusi santai", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" },
+            { name: "Vena", bio: "Suka fotografi & seni visual", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150" },
+            { name: "Rehan", bio: "Suka utak-atik kode & teknologi", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150" },
+            { name: "Damar", bio: "Penggiat alam bebas & petualangan", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150" },
+            { name: "Jatmiko", bio: "Suka kuliner nusantara", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150" },
+            { name: "Galuh", bio: "Suka desain grafis & musik indie", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" }
+        ];
+
+        let activeChatFriend = null;
+        let chatHistories = JSON.parse(localStorage.getItem('hamba_allah_chat_histories')) || {};
+
+        function renderChatContacts() {
+            const container = document.getElementById('chat-contact-list');
+            container.innerHTML = friendsList.map(f => `
+                <div onclick="selectChat('${f.name}')" class="flex items-center space-x-3 p-2 rounded-xl cursor-pointer transition ${activeChatFriend === f.name ? 'bg-[#ffedeb] border border-[#ffb5a7]' : 'hover:bg-[#fcf8f5]'}">
+                    <img src="${f.avatar}" class="w-10 h-10 rounded-full object-cover border border-[#ffb5a7]">
+                    <div class="overflow-hidden">
+                        <h4 class="font-bold text-xs text-[#4a4e69]">${f.name}</h4>
+                        <p class="text-[10px] text-[#8d6b63] truncate">${f.bio}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectChat(name) {
+            activeChatFriend = name;
+            const friend = friendsList.find(f => f.name === name);
+            if (friend) {
+                document.getElementById('active-chat-name').innerText = friend.name;
+                document.getElementById('active-chat-avatar').src = friend.avatar;
+            }
+            renderChatContacts();
+            renderChatMessages();
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chat-messages');
+            if (!activeChatFriend) {
+                container.innerHTML = `<div class="text-center text-xs text-[#8d6b63] py-20">Pilih salah satu teman di sebelah kiri untuk mulai mengobrol 🌸</div>`;
+                return;
+            }
+
+            const messages = chatHistories[activeChatFriend] || [
+                { sender: activeChatFriend, text: `Halo Haniel! Senang bisa terhubung di Hamba Allah. ✨`, time: "Baru saja" }
+            ];
+
+            container.innerHTML = messages.map(m => {
+                const isMe = m.sender === "Haniel";
+                return `
+                    <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+                        <div class="max-w-[80%] p-2.5 rounded-xl text-xs ${isMe ? 'bg-[#ffb5a7] text-white rounded-br-none' : 'bg-white text-[#4a4e69] border border-[#f4e8e1] rounded-bl-none'}">
+                            <p>${m.text}</p>
+                        </div>
+                        <span class="text-[9px] text-[#a3b18a] mt-0.5 px-1">${m.time}</span>
+                    </div>
+                `;
+            }).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            if (!activeChatFriend) {
+                alert("Pilih teman untuk diajak chat terlebih dahulu!");
+                return;
+            }
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!chatHistories[activeChatFriend]) {
+                chatHistories[activeChatFriend] = [
+                    { sender: activeChatFriend, text: `Halo Haniel! Senang bisa terhubung di Hamba Allah. ✨`, time: "Baru saja" }
+                ];
+            }
+
+            chatHistories[activeChatFriend].push({
+                sender: "Haniel",
+                text: text,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+
+            input.value = "";
+            localStorage.setItem('hamba_allah_chat_histories', JSON.stringify(chatHistories));
+            renderChatMessages();
+
+            // Simulasi balasan otomatis dari teman setelah 1.5 detik
+            setTimeout(() => {
+                const replies = [
+                    "Aamiin ya Rabbal 'alamiin, semangat ya Haniel! 🌿",
+                    "Wah seru banget tuh! Salam hangat ya buat semuanya.",
+                    "Betul banget, semoga kita semua selalu dalam kebaikan ✨",
+                    "Alhamdulillah, terima kasih sudah menyapa!"
+                ];
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                
+                chatHistories[activeChatFriend].push({
+                    sender: activeChatFriend,
+                    text: randomReply,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                localStorage.setItem('hamba_allah_chat_histories', JSON.stringify(chatHistories));
+                if (activeChatFriend) renderChatMessages();
+            }, 1500);
+        }
+
+        function handleChatKey(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        // Dummy initial posts
+        let defaultPosts = [
+            {
+                id: 1,
+                author: "Bide",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+                time: "Baru saja",
+                content: "Alhamdulillah hari ini bisa bersilaturahmi dengan teman-teman di Salatiga. Semoga ukhuwah kita senantiasa terjaga. Jangan lupa bersyukur ya semuanya! 🌿",
+                image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600",
+                likes: 12,
+                liked: false,
+                comments: [
+                    { author: "Vika", text: "Aamiin ya Rabbal 'alamiin. Salam hangat!" }
+                ]
+            }
+        ];
+
+        let posts = JSON.parse(localStorage.getItem('hamba_allah_posts_haniel')) || defaultPosts;
+
+        function saveAndRender() {
+            localStorage.setItem('hamba_allah_posts_haniel', JSON.stringify(posts));
+            renderFeed();
+            updateStats();
+        }
+
+        function updateStats() {
+            const userPostsCount = posts.filter(p => p.author === "Haniel").length;
+            document.getElementById('stat-posts').innerText = userPostsCount;
+        }
+
+        function createNewPost() {
+            const content = document.getElementById('post-content').value.trim();
+            if (!content && !uploadedImageBase64) {
+                alert("Tuliskan sesuatu atau unggah foto terlebih dahulu ya!");
+                return;
+            }
+
+            const newPost = {
+                id: Date.now(),
+                author: "Haniel",
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
+                time: "Baru saja",
+                content: content,
+                image: uploadedImageBase64,
+                likes: 0,
+                liked: false,
+                comments: []
+            };
+
+            posts.unshift(newPost);
+            document.getElementById('post-content').value = "";
+            removeImage();
+            saveAndRender();
+        }
+
+        function toggleLike(id) {
+            const post = posts.find(p => p.id === id);
+            if (post) {
+                if (post.liked) {
+                    post.likes -= 1;
+                    post.liked = false;
+                } else {
+                    post.likes += 1;
+                    post.liked = true;
+                }
+                saveAndRender();
+            }
+        }
+
+        function addComment(id) {
+            const inputEl = document.getElementById(`comment-input-${id}`);
+            const text = inputEl.value.trim();
+            if (!text) return;
+
+            const post = posts.find(p => p.id === id);
+            if (post) {
+                post.comments.push({
+                    author: "Haniel",
+                    text: text
+                });
+                inputEl.value = "";
+                saveAndRender();
+            }
+        }
+
+        function renderFeed() {
+            const container = document.getElementById('feed-container');
+            container.innerHTML = "";
+
+            if (posts.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-[#8d6b63] text-sm">Belum ada postingan. Jadilah yang pertama berbagi kebaikan!</div>`;
+                return;
+            }
+
+            posts.forEach(post => {
+                let commentsHtml = post.comments.map(c => `
+                    <div class="bg-[#fcf8f5] p-2.5 rounded-xl text-xs mt-2 border border-[#f4e8e1]">
+                        <span class="font-bold text-[#6b705c]">${c.author}</span>: <span class="text-[#4a4e69]">${c.text}</span>
+                    </div>
+                `).join('');
+
+                let postHtml = `
+                    <div class="pastel-card rounded-2xl p-4 sm:p-5 space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <img src="${post.avatar}" class="w-10 h-10 rounded-full object-cover border border-[#ffb5a7]">
+                            <div>
+                                <h3 class="font-bold text-sm text-[#4a4e69]">${post.author}</h3>
+                                <p class="text-xs text-[#a3b18a]">${post.time}</p>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-[#4a4e69] leading-relaxed whitespace-pre-line">${post.content}</p>
+
+                        ${post.image ? `<div class="rounded-xl overflow-hidden border border-[#f4e8e1]"><img src="${post.image}" class="w-full object-cover max-h-80"></div>` : ''}
+
+                        <div class="flex items-center space-x-4 pt-2 border-t border-[#f4e8e1] text-sm">
+                            <button onclick="toggleLike(${post.id})" class="flex items-center space-x-1.5 transition ${post.liked ? 'text-rose-400 font-semibold' : 'text-[#8d6b63] hover:text-rose-400'}">
+                                <i class="${post.liked ? 'fa-solid' : 'fa-regular'} fa-heart text-lg"></i>
+                                <span>${post.likes}</span>
+                            </button>
+                            <div class="flex items-center space-x-1.5 text-[#8d6b63]">
+                                <i class="fa-regular fa-comment text-lg"></i>
+                                <span>${post.comments.length}</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1 pt-1">
+                            ${commentsHtml}
+                            <div class="flex items-center space-x-2 mt-3">
+                                <input type="text" id="comment-input-${post.id}" placeholder="Tulis balasan atau doa yang baik..." class="flex-1 bg-[#fcf8f5] border border-[#f4e8e1] px-3 py-2 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#ffb5a7]">
+                                <button onclick="addComment(${post.id})" class="bg-[#ffb5a7] text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-[#fcd5ce] transition">
+                                    Kirim
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += postHtml;
+            });
+        }
+
+        function renderExploreUsers() {
+            const exploreContainer = document.getElementById('explore-users-container');
+            exploreContainer.innerHTML = friendsList.map(u => `
+                <div class="flex items-center justify-between p-3 rounded-xl bg-[#fcf8f5] border border-[#f4e8e1]">
+                    <div class="flex items-center space-x-3">
+                        <img src="${u.avatar}" class="w-12 h-12 rounded-full object-cover border border-[#ffb5a7]">
+                        <div>
+                            <h4 class="font-bold text-sm text-[#4a4e69]">${u.name}</h4>
+                            <p class="text-xs text-[#8d6b63]">${u.bio}</p>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('chat'); selectChat('${u.name}');" class="bg-[#ffedd8] text-[#8d6b63] hover:bg-[#ffb5a7] hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">
+                        Kirim Pesan
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Initial Load
+        renderFeed();
+        renderExploreUsers();
+        updateStats();
+    </script>
+</body>
+</html>
+

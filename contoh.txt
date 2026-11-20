@@ -1,0 +1,3 @@
+Nama : Haniel
+NIM : 123456789
+Nilai : 90
